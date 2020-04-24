@@ -1,0 +1,136 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Leaflet Preview</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css"
+   integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
+   crossorigin=""/>
+  <script src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js"
+   integrity="sha512-GffPMF3RvMeYyc1LWMHtK8EbPv0iNZ8/oTtHPx9/cc2ILxQ+u905qIwdpULaqDkyBKgOaB57QTMg7ztg8Jm2Og=="
+   crossorigin=""></script>
+
+   <script> src = "broughton_geojson" </script>
+  <style type="text/css">
+    body {
+       margin: 0;
+       padding: 0;
+    }
+    html, body, #map{
+       width: 100%;
+       height: 100%;
+    }
+
+  </style>
+</head>
+<body>
+  <div id="map"></div>
+  <script>
+      var map = L.map('map').setView([35.78733994624413, -78.65268140775623], 14.0);
+
+
+      var broughtonIcon = L.icon ({
+        iconUrl: 'https://www.nicepng.com/png/full/205-2052139_broughton-high-school-logo-needham-broughton-high-school.png',
+        iconSize: [50,50],
+        popupAnchor: [0,0]
+      });
+
+      var dilloIcon = L.icon ({
+        iconUrl: 'https://www.deptofmarketing.com/wp-content/uploads/2015/01/ArmadilloNeonSign2017.jpg',
+        iconSize: [50,50],
+        popupAnchor: [0,0]
+      })
+
+      var dilloPopup = "Armadillo Grill<br/><img src='https://b.zmtcdn.com/data/reviews_photos/384/7b7d0209c51c5a3d55c7befb2af16384.jpg'width='100px'/>";
+
+      var dillo = L.marker([35.786162, -78.647666], {icon:dilloIcon})
+            .bindPopup(dilloPopup)
+            .openPopup(dilloPopup);
+            
+
+      var broughtonPopup = "Broughton High School<br/><img src='https://www.wcpss.net/cms/lib/NC01911451/Centricity/ModuleInstance/21055/unnamed.jpg'width='100px'/>";
+
+      var Broughton = L.marker([35.789952, -78.652406], {icon:broughtonIcon})
+            .bindPopup(broughtonPopup)
+            .openPopup(broughtonPopup);
+            
+      
+      var libraryIcon = L.icon ({
+        iconUrl: 'https://iamquixote.com/wp-content/uploads/2015/08/Quixote-Helmets-Masks-CVRL.png',
+        iconSize: [50,50],
+        popupAnchor: [0,0]
+      })
+
+      var libraryPopup = "Cameron Village Regional Library<br/><img src='https://s3.amazonaws.com/mentoring.redesign/s3fs-public/CameronVillageLibrary.jpg'width='100px'/>";
+
+      var library = L.marker([35.789433, -78.657892], {icon:libraryIcon})
+            .bindPopup(libraryPopup)
+            .openPopup(libraryPopup);
+            
+
+      var wileyIcon = L.icon ({
+        iconUrl: 'https://www.wcpss.net//cms/lib/NC01911451/Centricity/Domain/10/1146714_533474053373630_2023480873_n.png',
+        iconSize: [50,50],
+        popupAnchor: [0,0]
+      })
+
+      var wileyPopup = "Wiley Elementary School<br/><img src='https://www.wcpss.net/cms/lib/NC01911451/Centricity/ModuleInstance/5727/_MG_4279-L.jpg'width='100px'/>";
+
+      var wiley = L.marker([35.785083, -78.650979], {icon:wileyIcon})
+            .bindPopup(wileyPopup)
+            .openPopup(wileyPopup);
+            
+
+
+      var distance2library = [
+        [35.789952, -78.652406],
+        [35.789433, -78.657892],
+      ];
+      var broughton2library = L.polyline(distance2library, {color: 'red', name: "Distance from Broughton to library"});
+      
+
+      var cameronPark = [
+        [35.788902, -78.661200],
+        [35.785699, -78.661222],
+        [35.783001, -78.650836],
+        [35.788599, -78.651130]
+      ];
+
+      var cameronParkpolygon = L.polygon(cameronPark, {color: 'blue', name: "Cameron Park Neighborhood"});
+      
+
+
+      var OSM = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+	    maxZoom: 19,
+	    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+      }).addTo(map);
+
+      var daPhoto = L.tileLayer('file:////Users/BenjaminBrown/Documents/geog370/quiz7/{z}/{x}/{y}.png', {
+        minZoom: 12,
+        maxZoom: 16,
+        tms: false,
+        attribution: 'USGS'
+      })
+
+      var daTiles = {
+        "Open Street Map": OSM,
+        "Raleigh, NC": daPhoto
+      }
+
+      var daVectors = {
+        "Broughton High School": Broughton,
+        "Armadillo Grill": dillo,
+        "Cameron Village Regional Library": library,
+        "Wiley Elementary School": wiley,
+        "Distance from Broughton to Library": broughton2library,
+        "Cameron Park Neighborhood": cameronParkpolygon
+      };
+
+      L.control.layers(daTiles, daVectors).addTo(map);
+
+  </script>
+</body>
+</html>
